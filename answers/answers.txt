@@ -1,0 +1,52 @@
+What are all the types of pokemon that a pokemon can have?
+
+		SELECT * FROM types;
+
+What is the name of the pokemon with id 45?
+
+		SELECT * FROM pokemons WHERE id = 45;
+
+How many Pokemon are there? 
+	
+		SELECT COUNT(*) FROM pokemons;
+
+How many types are there?
+
+		SELECT COUNT(*) FROM types;
+
+How many pokemon have a secondary type?
+
+		SELECT COUNT(secondary_type) FROM pokemons;
+
+What is each pokemon's primary type?
+		
+		SELECT p.id, p.name, t.name AS prim_type  FROM pokemons p JOIN types t ON p.primary_type = t.id;
+
+What is Rufflet's secondary type?
+
+		SELECT * FROM pokemons p JOIN types t ON p.secondary_type = t.id WHERE p.name = 'Rufflet';
+
+What are the names of the pokemon that belong to the trainer with trainerID 303?
+
+		SELECT * FROM pokemon_trainer pt JOIN pokemons p ON pt.pokemon_id = p.id WHERE pt.trainerID = 303;
+
+How many pokemon have a secondary type Poison
+
+		SELECT * FROM pokemons p JOIN types t ON p.secondary_type = t.id WHERE t.name = "Poison";
+
+What are all the primary types and how many pokemon have that type?
+
+		SELECT COUNT(*) AS num_of_type, t.name FROM types t JOIN pokemons p ON p.primary_type = t.id GROUP BY t.name;
+
+How many pokemon at level 100 does each trainer with at least one level 100 pokemone have? (Hint: your query should not display a trainer
+
+		mysql> SELECT COUNT(*), trainerID FROM pokemon_trainer WHERE pokelevel = 100 GROUP BY trainerID ORDER BY COUNT(*) DESC; 
+
+How many pokemon only belong to one trainer and no other?
+
+		SELECT pokemon_id, COUNT(*) FROM pokemon_trainer GROUP BY pokemon_id HAVING COUNT(*) = 1;
+
+
+Part 4: Final Report
+
+SELECT p.name, t.trainername, pt.pokelevel,types.name AS 'primary_type', p.secondary_type from pokemon_trainer pt JOIN trainers t ON pt.trainerID = t.trainerID JOIN pokemons p ON p.id = pt.pokemon_id JOIN types ON p.primary_type = types.id ORDER BY pt.attack DESC LIMIT 10;
